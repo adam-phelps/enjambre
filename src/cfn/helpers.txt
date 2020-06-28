@@ -1,0 +1,15 @@
+# List buckets in the account
+
+aws s3api list-buckets
+
+# Synthesize cloud formation stack
+
+aws cloudformation deploy --stack-name cfn_enfstack.yaml --template-file s3_bucket.yaml
+
+# Apply bucket policy
+
+aws s3api put-bucket-policy --bucket <BUCKET> --policy file://<POLICY.JSON>
+
+# Associate Role to EC2 instance
+
+aws ec2 associate-iam-instance-profile --iam-instance-profile Name=<ROLE_NAME> --instance-id <INSTANCE_ID>

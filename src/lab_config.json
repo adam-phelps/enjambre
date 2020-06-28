@@ -1,11 +1,12 @@
 {
     "lab_tag": "enjambre",
     "ports": {
-            "ssh": "22"
+            "ssh": "22",
+            "https": "443"
         },
     "networks": {
-            "vpc-lab": "172.19.0.0/16",
-            "public-sub-lab": "172.19.1.0/24"
+            "vpc-lab": "172.21.0.0/16",
+            "public-sub-lab": "172.21.1.0/24"
         },
     "keys": {
         "ssh-key": "kp-enj"

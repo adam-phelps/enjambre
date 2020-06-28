@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Description: For static website files.
+  IAM:
+    Type: AWS::IAM::Role
+    Description: For EC2 instance to access S3 bucket.
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statment:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+                - 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - PolicyName: AmazonS3ReadOnlyAccess
+    RoleName: enjec2role
