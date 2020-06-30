@@ -1,0 +1,29 @@
+{
+    "Resources": {
+        "RestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+                "Body": {
+                    "swagger": 2,
+                    "info": {
+                        "version": "0.0.1",
+                        "title": "api-robots"
+                    },
+                    "basePath": "/",
+                    "schemes": [
+                        "https"
+                    ],
+                    "definitions": {
+                        "Empty": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "Name": "api-robots",
+                "Parameters": {
+                    "endpointConfigurationTypes": "REGIONAL"
+                }
+            }
+        }
+    }
+}

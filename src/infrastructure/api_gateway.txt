@@ -1,0 +1,4 @@
+Create lambda role with perms to DDB database
+Create REST API gateway
+INTEGRATE LAMBDA function with API gateway
+POST METHOD (no lambda integration)
