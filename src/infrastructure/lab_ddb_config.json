@@ -1,0 +1,15 @@
+{
+    "TableName": "Robots2",
+    "Attributes": [
+        {
+            "AttributeName": "ID",
+            "KeyType": "HASH",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "NAME",
+            "KeyType": "RANGE",
+            "AttributeType": "S"
+        }
+    ]
+}
