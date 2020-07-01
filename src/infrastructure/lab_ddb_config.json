@@ -1,5 +1,5 @@
 {
-    "TableName": "Robots2",
+    "TableName": "Robots",
     "Attributes": [
         {
             "AttributeName": "ID",

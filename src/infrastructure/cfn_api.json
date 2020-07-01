@@ -1,28 +1,92 @@
 {
     "Resources": {
-        "RestApi": {
-            "Type": "AWS::ApiGateway::RestApi",
+        "robotsRoleDDB": {
+            "Type": "AWS::IAM::Role",
             "Properties": {
-                "Body": {
-                    "swagger": 2,
-                    "info": {
-                        "version": "0.0.1",
-                        "title": "api-robots"
-                    },
-                    "basePath": "/",
-                    "schemes": [
-                        "https"
-                    ],
-                    "definitions": {
-                        "Empty": {
-                            "type": "object"
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "lambda.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "robotsRoleDDBPolicy",
+                        "PolicyDocument": {
+                                "Version": "2012-10-17",
+                                "Statement": [
+                                    {
+                                        "Effect": "Allow",
+                                        "Action": "dynamodb:*",
+                                        "Resource": "*"
+                                    }
+                                ]
                         }
                     }
-                },
-                "Name": "api-robots",
+                ],
+                "Description": "IAM role for Lambda functions to interact with DDB.",
+                "RoleName": "robotsRoleDDB"
+            }
+        },
+        "apigwRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+                "Name": "api_robots",
+                "Description": "API to update and delete from DDB table.",
                 "Parameters": {
                     "endpointConfigurationTypes": "REGIONAL"
                 }
+            }
+        },
+        "apigwRootMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "GET",
+                "OperationName": "GET Robots",
+                "Integration": {
+                    "IntegrationHttpMethod": "GET",
+                    "Type": "AWS_PROXY",
+                    "Uri": {
+                        "Fn::Sub": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:048551010528:function:Hello/invocations"
+                    }
+                },
+                "ResourceId": {
+                    "Fn::GetAtt": [
+                        "apigwRestApi", "RootResourceId"
+                    ]
+                },
+                "RestApiId": {
+                    "Ref": "apigwRestApi"
+                }
+            }
+        },
+        "robotsGetRobotslambda": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Code": {
+                    "ZipFile": "def handler(event, context): \n pass \n"
+                },
+                "Description": "Function to GET objects from table.",
+                "FunctionName": "robotsGetRobotslambda",
+                "Handler": "lambda_get_robots.lambda_handler",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "robotsRoleDDB",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "python3.7"
             }
         }
     }

@@ -2,3 +2,9 @@ Create lambda role with perms to DDB database
 Create REST API gateway
 INTEGRATE LAMBDA function with API gateway
 POST METHOD (no lambda integration)
+
+aws cloudformation update-stack --stack-name api-stack --template-body file://cfn_api.json
+
+aws cloudformation create-stack --stack-name api-stack --template-body file://cfn_api.json
+
+for x in $(ls | grep -v 'lab_ddb\|database'); do mv $x ..\.archive ; done; exit

@@ -6,7 +6,7 @@ def put_robot(event):
     id = str(uuid.uuid4())
     id = id[:13]
     ddb = boto3.resource('dynamodb')
-    table = ddb.Table('Robots2')
+    table = ddb.Table('Robots')
     response = table.put_item(Item={
         'ID': id,
         'NAME': event['ID']+id

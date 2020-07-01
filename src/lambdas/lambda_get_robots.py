@@ -3,10 +3,7 @@ import boto3
 def get_robots():
     ddb = boto3.resource('dynamodb')
     table = ddb.Table('Robots')
-    response = table.put_item(Item={
-        'ID': id,
-        'Name': 'Robot-'+id
-        })
+    response = "NULL"
     return response
 
 def lambda_handler(event, context):
