@@ -46,4 +46,4 @@ def create_table(config_file) -> bool:
 
 
 if __name__ == "__main__":
-    create_table('lab_ddb_config.json')
+    create_table('src/infrastructure/lab_ddb_config.json')

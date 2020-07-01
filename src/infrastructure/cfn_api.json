@@ -56,11 +56,37 @@
                 "OperationName": "GET Robots",
                 "Integration": {
                     "IntegrationHttpMethod": "GET",
-                    "Type": "AWS_PROXY",
+                    "Type": "AWS",
                     "Uri": {
-                        "Fn::Sub": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:048551010528:function:Hello/invocations"
-                    }
+                        "Fn::Sub": [ 
+                            "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations",
+                            {
+                                "lambdaArn": {
+                                    "Fn::GetAtt": [
+                                        "robotsGetRobotslambda",
+                                        "Arn"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "IntegrationResponses": [
+                        {
+                            "StatusCode": 200,
+                            "ResponseModels": {
+                                "application/json": "Empty"
+                            }
+                        }
+                    ]
                 },
+                "MethodResponses": [
+                    {
+                        "StatusCode": 200,
+                        "ResponseModels": {
+                            "application/json": "Empty"
+                        }
+                    }
+                ],
                 "ResourceId": {
                     "Fn::GetAtt": [
                         "apigwRestApi", "RootResourceId"

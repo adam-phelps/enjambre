@@ -2,6 +2,7 @@
 # Adam Phelps 6/29/2020
 
 import argparse
+import requests
 
 def create_parser():
     ''' Create CLI with sensible defaults.'''
@@ -10,10 +11,17 @@ def create_parser():
     args = parser.parse_args()
     return vars(args)
 
+class RobotMethods:
+    def __init__(self, parameters):
+        robo_name = parameters
+        pass
 
-def endpoint_request(robot_name) -> bool:
-    ''' Reach out to endpoint to enter in robot.'''
-    return True
+    def post_robot(self):
+        r= requests.get('https://aiivpjhf5l.execute-api.us-east-1.amazonaws.com/beta/test')
+        print(r.text)
 
 if __name__ == "__main__":
-    print(f"Your robot name: {create_parser()}")
+    robot_params = create_parser()
+    roboMethods = RobotMethods(robot_params)
+    roboMethods.post_robot()
+    print(f"Your robot name: {robot_params}")
