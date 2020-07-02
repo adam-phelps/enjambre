@@ -20,7 +20,7 @@ if [ $? -eq 255 ]; then
 fi
 
 #Wait for the stack to exist before updating the lambdas, the CFN JSON gets messy nesting the Lambdas in there so we send them seperately
-sleep 20s
+sleep 25s
 aws lambda update-function-code \
      --function-name robotsGetRobotslambda \
      --zip-file fileb://$(pwd)/src/lambdas/lambda_get_robots.py.zip

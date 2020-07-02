@@ -7,4 +7,4 @@ aws cloudformation update-stack --stack-name api-stack --template-body file://cf
 
 aws cloudformation create-stack --stack-name api-stack --template-body file://cfn_api.json
 
-for x in $(ls | grep -v 'lab_ddb\|database'); do mv $x ..\.archive ; done; exit
+for x in $(ls src/lambdas | grep -v "zip"); do echo $x; done

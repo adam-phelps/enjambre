@@ -52,10 +52,10 @@
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
                 "AuthorizationType": "NONE",
-                "HttpMethod": "GET",
-                "OperationName": "GET Robots",
+                "HttpMethod": "POST",
+                "OperationName": "POST Robots",
                 "Integration": {
-                    "IntegrationHttpMethod": "GET",
+                    "IntegrationHttpMethod": "POST",
                     "Type": "AWS",
                     "Uri": {
                         "Fn::Sub": [ 
@@ -73,8 +73,8 @@
                     "IntegrationResponses": [
                         {
                             "StatusCode": 200,
-                            "ResponseModels": {
-                                "application/json": "Empty"
+                            "ResponseTemplates": {
+                                "application/json": ""
                             }
                         }
                     ]
@@ -113,6 +113,52 @@
                     ]
                 },
                 "Runtime": "python3.7"
+            }
+        },
+        "robotsGetRobotslambdaPerm": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "robotsGetRobotslambda",
+                        "Arn"
+                    ]
+                },
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                    "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apigwRestApi}/*/POST/"
+                }
+            }
+        },
+        "apigwRestApiDeployment": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "DependsOn": "apigwRootMethod",
+            "Properties": {
+                "Description": "Deployed PUBLIC api endpoint.",
+                "RestApiId": {
+                    "Ref": "apigwRestApi"
+                },
+                "StageName": "Beta"
+            }
+        },
+        "apigwRestApiStage": {
+            "Type": "AWS::ApiGateway::Stage",
+            "Properties": {
+                "StageName": "PROD",
+                "Description": "Prod Stage",
+                "RestApiId": {
+                    "Ref": "apigwRestApi"
+                },
+                "DeploymentId": {
+                    "Ref": "apigwRestApiDeployment"
+                },
+                "MethodSettings": [
+                    {
+                        "ResourcePath": "/",
+                        "HttpMethod": "POST"
+                    }
+                ]
             }
         }
     }
