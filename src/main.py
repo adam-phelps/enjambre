@@ -1,53 +1,27 @@
-import boto3
-import subprocess
-import json
-from network import create_subnet, create_route_table, create_vpc, \
-    create_security_group, authorize_security_group_ingress, \
-    create_internet_gateway
-from security import create_key_pair
-from compute import create_instances
+# Main entry point for the Enjambre robot manager CLI
+# Adam Phelps 6/29/2020
 
+import argparse
+import requests
 
-def check_aws_connection() -> bool:
-    """ Make sure we have AWS connectivity """
-    try:
-        res = subprocess.run(["aws","sts","get-caller-identity"], stdout=subprocess.PIPE)
-        if res.returncode == 0:
-            return True
-        else:
-            return False
-    except subprocess.CalledProcessError as e:
-        print(f"{e}")
-        return False
+def create_parser():
+    ''' Create CLI with sensible defaults.'''
+    parser = argparse.ArgumentParser(description='Enjambre robot manager')
+    parser.add_argument('--robot-name', help='String name of robot.', required=True)
+    args = parser.parse_args()
+    return vars(args)
 
+class RobotMethods:
+    def __init__(self, parameters):
+        robo_name = parameters
+        pass
 
-def read_config_file():
-    """ Load from a JSON to made user customization easier. """
-    try:
-        with open('lab_config.json') as lab_config_file:
-            myconfig = json.load(lab_config_file)
-            return myconfig
-    except Exception as e:
-        print(f"{e}")
-
+    def post_robot(self):
+        r= requests.get('https://aiivpjhf5l.execute-api.us-east-1.amazonaws.com/beta/test')
+        print(r.text)
 
 if __name__ == "__main__":
-    if check_aws_connection():
-        instances = []
-        myconfig = read_config_file()
-        lab_tag = myconfig['lab_tag']
-        ec2_r = boto3.resource('ec2')
-        ec2_c = boto3.client('ec2')
-        vpc = create_vpc(ec2_r, myconfig['networks']['vpc-lab'], lab_tag)
-        kp = create_key_pair(ec2_c, myconfig['keys']['ssh-key'])
-        sg = create_security_group(ec2_r, vpc, lab_tag)
-        authorize_security_group_ingress(ec2_c, sg, myconfig['ports']['ssh'])
-        igw = create_internet_gateway(ec2_r, vpc)
-        rt_table = create_route_table(vpc, igw)
-        sub = create_subnet(ec2_r, vpc, rt_table,
-                            myconfig['networks']['public-sub-lab'], lab_tag)
-        for instance in range(0, int(myconfig['instance_info']['amount'])):
-            instances.append(create_instances(ec2_r, sg, sub, lab_tag,
-                            myconfig['instance_info'],
-                            'enj-wfe-01-east1-' + str(instance)))
-            print(instances[instance][0].public_ip_address)
+    robot_params = create_parser()
+    roboMethods = RobotMethods(robot_params)
+    roboMethods.post_robot()
+    print(f"Your robot name: {robot_params}")

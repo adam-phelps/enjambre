@@ -1,14 +1,9 @@
 import boto3
 
 def get_robots():
-    id = str(uuid.uuid4())
-    id = id[:13]
     ddb = boto3.resource('dynamodb')
     table = ddb.Table('Robots')
-    response = table.put_item(Item={
-        'ID': id,
-        'Name': 'Robot-'+id
-        })
+    response = "NULL"
     return response
 
 def lambda_handler(event, context):
