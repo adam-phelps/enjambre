@@ -3,6 +3,7 @@
 
 import argparse
 import requests
+from os import environ
 
 def create_parser():
     ''' Create CLI with sensible defaults.'''
@@ -17,7 +18,7 @@ class RobotMethods:
         pass
 
     def post_robot(self):
-        r= requests.get('https://aiivpjhf5l.execute-api.us-east-1.amazonaws.com/beta/test')
+        r= requests.post(environ['TARGET_API'])
         print(r.text)
 
 if __name__ == "__main__":

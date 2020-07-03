@@ -1,6 +1,9 @@
 # Enjambre Robo Manager(ERM)
 Manage your Robots in one central location using AWS!
 
+## Solution Architecture
+![Solution Visual](imgs/EnjambreArchitecture.png?raw=true "Enjambre Solution")
+
 ## Configuration Steps
 
 1. git clone repo
@@ -19,6 +22,10 @@ Manage your Robots in one central location using AWS!
 
 `pip install -r requirements.txt`
 
-5. CD into src directory and run main.py
+5. Run setup.sh
 
-`python main.py`
+`source setup.sh`
+
+6. Issue commands with the CLI
+
+`python src/main.py --robot-name "Adam"`
