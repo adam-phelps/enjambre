@@ -2,14 +2,14 @@ import boto3
 import uuid
 
 def put_robot(event):
-    ''' Enter info into DDB table with lambda inputs. '''
+    '''Create a unique ID for each robot to not give away how many we have. Then give it a name. '''
     id = str(uuid.uuid4())
     id = id[:13]
     ddb = boto3.resource('dynamodb')
     table = ddb.Table('Robots')
     response = table.put_item(Item={
         'ID': id,
-        'NAME': event['ID']+id
+        'NAME': event['ID']
         })
     return response
 
