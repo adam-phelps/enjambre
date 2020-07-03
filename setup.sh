@@ -19,8 +19,25 @@ if [ $? -eq 255 ]; then
           --capabilities CAPABILITY_NAMED_IAM
 fi
 
-#Wait for the stack to exist before updating the lambdas, the CFN JSON gets messy nesting the Lambdas in there so we send them seperately
-sleep 25s
+#Wait for the stack to exist before updating the lambdas and environment vars the CFN JSON gets messy nesting the Lambdas in there so we send them seperately
+echo "Waiting for stack to complete creation/update."
+aws cloudformation wait stack-create-complete --stack-name api-stack
+TARGET_API=$(aws cloudformation describe-stacks | grep https | awk '{print $4}')
+declare -x TARGET_API 
+
 aws lambda update-function-code \
      --function-name robotsGetRobotslambda \
      --zip-file fileb://$(pwd)/src/lambdas/lambda_get_robots.py.zip
+
+#Test the endpoint
+echo "Testing if we can hit the endpoint..."
+curl $TARGET_API -X POST 
+if [ $? -eq 0 ]; then
+     echo "ENDPOINT READY"
+else
+     echo "ERROR Hitting endpoint.  Check the clouds!"
+fi
+
+#Testing CLI
+echo "Testing CLI."
+python src/main.py --robot-name "Adam"

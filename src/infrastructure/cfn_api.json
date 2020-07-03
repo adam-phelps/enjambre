@@ -1,4 +1,6 @@
 {
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This is the infrastructure (sans DynamoDB) for enjmabre.",
     "Resources": {
         "robotsRoleDDB": {
             "Type": "AWS::IAM::Role",
@@ -139,7 +141,7 @@
                 "RestApiId": {
                     "Ref": "apigwRestApi"
                 },
-                "StageName": "Beta"
+                "StageName": "BETA"
             }
         },
         "apigwRestApiStage": {
@@ -159,6 +161,13 @@
                         "HttpMethod": "POST"
                     }
                 ]
+            }
+        }
+    },
+    "Outputs": {
+        "MyApiEndpoint": {
+            "Value": {
+                "Fn::Sub": "https://${apigwRestApi}.execute-api.${AWS::Region}.amazonaws.com/BETA" 
             }
         }
     }
