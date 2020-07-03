@@ -16,23 +16,27 @@ Manage your Robots in one central location using AWS!
 
 ## Installation & Configuration 
 
-1. git clone repo
+Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/run Lambda functions, create/use API gateway.
+
+`aws configure`
+
+Git clone repo
 
 `git clone https://github.com/adam-phelps/enjambre.git`
 
-2. Create a local python virtual environment
+Create a local python virtual environment
 
 `python3 -m venv venv`
 
-3. Activate venv
+Activate venv
 
 `source venv/bin/activate`
 
-4. Install required packages
+Install required packages
 
 `pip install -r requirements.txt`
 
-5. Run setup.sh
+Run setup.sh
 
 `source setup.sh create`
 
