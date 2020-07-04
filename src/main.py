@@ -16,6 +16,7 @@ def create_parser():
     return vars(args)
 
 def get_aws_auth():
+    '''Use pip package to get IAM creds.'''
     session = botocore.session.get_session()
     aws_credentials = session.get_credentials()
     auth = AWSRequestsAuth(aws_access_key=aws_credentials.access_key,
