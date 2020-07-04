@@ -1,31 +1,45 @@
-# Enjambre Robo Manager(ERM)
+# Enjambre Robo Manager (ERM)
 Manage your Robots in one central location using AWS!
 
 ## Solution Architecture
 ![Solution Visual](imgs/EnjambreArchitecture.png?raw=true "Enjambre Solution")
 
-## Configuration Steps
+## Getting Started 
 
-1. git clone repo
+### Add a new robot
+
+`python src/main.py --robot-name "Adam"`
+
+### Get a list of existing robots
+
+`python src/main.py --get-robots all`
+
+## Installation & Configuration 
+
+Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/run Lambda functions, create/use API gateway.
+
+`aws configure`
+
+Git clone repo
 
 `git clone https://github.com/adam-phelps/enjambre.git`
 
-2. Create a local python virtual environment
+Create a local python virtual environment
 
 `python3 -m venv venv`
 
-3. Activate venv
+Activate venv
 
 `source venv/bin/activate`
 
-4. Install required packages
+Install required packages
 
 `pip install -r requirements.txt`
 
-5. Run setup.sh
+Run setup.sh
 
-`source setup.sh`
+`source setup.sh create`
 
-6. Issue commands with the CLI
+ERM is now ready!
 
-`python src/main.py --robot-name "Adam"`
+
