@@ -16,7 +16,7 @@ Manage your Robots in one central location using AWS!
 
 ## Installation & Configuration 
 
-Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/run Lambda functions, create/use API gateway.
+Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/invoke Lambda functions, create/use/invoke API gateway.
 
 `aws configure`
 
@@ -42,4 +42,12 @@ Run setup.sh
 
 ERM is now ready!
 
+# Testing
 
+For unit tests from the root project directory run
+
+`pytest`
+
+For ingtegration tests run from the root directory
+
+`source setup.sh`

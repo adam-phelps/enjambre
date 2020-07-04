@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This is the infrastructure (sans DynamoDB) for enjmabre.",
+    "Description": "This is the control-plane infrastructure (sans DynamoDB) for enjmabre.",
     "Resources": {
         "robotsRoleDDB": {
             "Type": "AWS::IAM::Role",
