@@ -7,9 +7,20 @@ def put_robot(event):
     id = id[:13]
     ddb = boto3.resource('dynamodb')
     table = ddb.Table('Robots')
-    response = table.put_item(Item={
+    try:
+        response = table.put_item(Item={
         'ID': id,
-        'NAME': event['ID']
+        'NAME': event['NAME'],
+        'MODEL': event['MODEL'],
+        'VIDEO': event['VIDEO'],
+        'CONNECTION': event['CONNECTION'],
+        'LOCATION': event['LOCATION'],
+        'REGISTERED': event['REGISTERED']
+        })
+    except KeyError:
+        response = table.put_item(Item={
+        'ID': id,
+        'NAME': event['NAME']
         })
     return response
 

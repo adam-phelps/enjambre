@@ -31,6 +31,10 @@ set +x
 TARGET_API=$(aws cloudformation describe-stacks | grep https | awk '{print $4}')
 declare -x TARGET_API 
 
+#In order to use aws-requests-auth PIP package I need a santized version of the URL
+TARGET_API_AWS_AUTH=$(echo $TARGET_API | awk -F "/" '{print $3}')
+declare -x TARGET_API_AWS_AUTH
+
 aws lambda update-function-code \
      --function-name robotsPostRobotslambda \
      --zip-file fileb://$(pwd)/src/lambdas/lambda_post_robots.py.zip
@@ -39,9 +43,9 @@ aws lambda update-function-code \
      --function-name robotsGetRobotslambda \
      --zip-file fileb://$(pwd)/src/lambdas/lambda_get_robots.py.zip
 
-#Test the endpoint
+#Test the endpoint, if these fail it means we are secure from public requests:)
 echo "Testing if we can hit the endpoint..."
-curl $TARGET_API -X POST -d '{"ID":"PostLambdaTestCURL"}' -H "Content-Type: application/json"
+curl $TARGET_API -X POST -d '{"NAME":"PostLambdaTestCURL"}' -H "Content-Type: application/json"
 curl $TARGET_API
 
 if [ $? -eq 0 ]; then

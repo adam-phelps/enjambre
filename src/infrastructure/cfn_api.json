@@ -53,7 +53,7 @@
         "apigwRootMethodPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
-                "AuthorizationType": "NONE",
+                "AuthorizationType": "AWS_IAM",
                 "HttpMethod": "POST",
                 "OperationName": "POST Robots",
                 "Integration": {
@@ -102,7 +102,7 @@
         "apigwRootMethodGet": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
-                "AuthorizationType": "NONE",
+                "AuthorizationType": "AWS_IAM",
                 "HttpMethod": "GET",
                 "OperationName": "GET Robots",
                 "Integration": {
