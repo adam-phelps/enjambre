@@ -26,7 +26,7 @@ else
 fi
 #Must run this as source setup.sh or this environment var won't set for main shell
 
-TARGET_API=$(aws cloudformation describe-stacks | grep https | awk '{print $4}')
+TARGET_API=$(aws cloudformation describe-stacks --stack-name enj-controlplane-stack | grep https | awk '{print $4}')
 declare -x TARGET_API 
 
 #In order to use aws-requests-auth PIP package I need a santized version of the URL

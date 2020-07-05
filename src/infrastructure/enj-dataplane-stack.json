@@ -1,0 +1,134 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Data plane infrastructure for Enjambre.  Allows robots to send api requests.",
+    "Resources":{
+        "apigwRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+                "Name": "api-dataplane",
+                "Description": "API to allow robots to process tasks and submit events.",
+                "Parameters": {
+                    "endpointConfigurationTypes": "REGIONAL"
+                }
+            }
+        },
+        "apigwRootMethodPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "AWS_IAM",
+                "HttpMethod": "POST",
+                "OperationName": "POST Robots",
+                "Integration": {
+                    "IntegrationHttpMethod": "POST",
+                    "Type": "AWS",
+                    "Uri": {
+                        "Fn::Sub": [ 
+                            "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${lambdaArn}/invocations",
+                            {
+                                "lambdaArn": {
+                                    "Fn::GetAtt": [
+                                        "robotsPostEventslambda",
+                                        "Arn"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "IntegrationResponses": [
+                        {
+                            "StatusCode": "200",
+                            "ResponseTemplates": {
+                                "application/json": ""
+                            }
+                        }
+                    ]
+                },
+                "MethodResponses": [
+                    {
+                        "StatusCode": "200",
+                        "ResponseModels": {
+                            "application/json": "Empty"
+                        }
+                    }
+                ],
+                "ResourceId": {
+                    "Fn::GetAtt": [
+                        "apigwRestApi", "RootResourceId"
+                    ]
+                },
+                "RestApiId": {
+                    "Ref": "apigwRestApi"
+                }
+            }
+        },
+        "robotsPostEventslambda": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Code": {
+                    "ZipFile": "def handler(event, context): \n pass \n"
+                },
+                "Description": "Function to POST objects to robots table.",
+                "FunctionName": "robotsPostEventslambda",
+                "Handler": "lambda_post_events.lambda_handler",
+                "Role": {
+                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/robotsRoleDDB"
+                },
+                "Runtime": "python3.7"
+            }
+        },
+        "robotsPostRobotslambdaPerm": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "robotsPostEventslambda",
+                        "Arn"
+                    ]
+                },
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                    "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apigwRestApi}/*/POST/"
+                }
+            }
+        },
+        "apigwRestApiDeployment": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "DependsOn": [
+                "apigwRootMethodPost"
+            ],
+            "Properties": {
+                "Description": "Deployed PUBLIC api endpoint.",
+                "RestApiId": {
+                    "Ref": "apigwRestApi"
+                }
+            }
+        },
+        "apigwRestApiStage": {
+            "Type": "AWS::ApiGateway::Stage",
+            "Properties": {
+                "StageName": "PROD",
+                "Description": "Prod Stage",
+                "RestApiId": {
+                    "Ref": "apigwRestApi"
+                },
+                "DeploymentId": {
+                    "Ref": "apigwRestApiDeployment"
+                },
+                "MethodSettings": [
+                    {
+                        "ResourcePath": "/",
+                        "HttpMethod": "POST"
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "MyAgentApiEndpoint": {
+            "Value": {
+                "Fn::Sub": "https://${apigwRestApi}.execute-api.${AWS::Region}.amazonaws.com/PROD"
+            }
+        }
+    }
+}

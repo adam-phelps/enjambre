@@ -12,7 +12,7 @@ Manage your Robots in one central location using AWS!
 
 ### Get a list of existing robots
 
-`python src/main.py --get-robots all`
+`python src/main.py --list-robots all`
 
 ## Installation & Configuration 
 
@@ -36,9 +36,10 @@ Install required packages
 
 `pip install -r requirements.txt`
 
-Run setup.sh
+Launch the controlplane and dataplane stacks.
 
-`source setup.sh create`
+`source control-plane-setup.sh create`
+`source data-plane-setup.sh create`
 
 ERM is now ready!
 
@@ -48,6 +49,7 @@ For unit tests from the root project directory run
 
 `pytest`
 
-For ingtegration tests run from the root directory
+For unit tests
 
-`source setup.sh`
+`cd test`
+`pytest`
