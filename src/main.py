@@ -3,6 +3,7 @@
 
 
 from enjrobotmethods import EnjRobotMethods
+from enjgetroboaccess import EnjRoboAccess
 from enjdatabasechecker import EnjDatabaseChecker
 from enjmanager import EnjManager
 from enjsecurity import EnjSecurity
@@ -10,6 +11,7 @@ from enjsecurity import EnjSecurity
 
 if __name__ == "__main__":
     myEnjManager = EnjManager(console="no")
+    myEnjRoboAccess = EnjRoboAccess()
     myEnjSecurity = EnjSecurity()
     myEnjDBChecker = EnjDatabaseChecker()
     myEnjDBChecker.dbcheck_for_status()
@@ -18,6 +20,8 @@ if __name__ == "__main__":
     myEnjRobotMethods = EnjRobotMethods(robot_params, aws_auth)
     if robot_params['add_robot']:
         myEnjRobotMethods.post_robot(robot_params['add_robot'])
+        myAccessK,mySecretK = myEnjRoboAccess.setup_iam_user(robot_params['add_robot'])
+        print(f"On your robot configure the \n Access Key: {myAccessK} \n Secret Key: {mySecretK}")
         print(f"Your robot {robot_params['add_robot']} has been created.")
     if robot_params['list_robots']:
         myEnjRobotMethods.display_robots()
