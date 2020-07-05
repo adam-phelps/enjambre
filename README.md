@@ -12,11 +12,11 @@ Manage your Robots in one central location using AWS!
 
 ### Get a list of existing robots
 
-`python src/main.py --get-robots all`
+`python src/main.py --list-robots all`
 
 ## Installation & Configuration 
 
-Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/run Lambda functions, create/use API gateway.
+Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/invoke Lambda functions, create/use/invoke API gateway.
 
 `aws configure`
 
@@ -36,10 +36,20 @@ Install required packages
 
 `pip install -r requirements.txt`
 
-Run setup.sh
+Launch the controlplane and dataplane stacks.
 
-`source setup.sh create`
+`source control-plane-setup.sh create`
+`source data-plane-setup.sh create`
 
 ERM is now ready!
 
+# Testing
 
+For unit tests from the root project directory run
+
+`pytest`
+
+For unit tests
+
+`cd test`
+`pytest`

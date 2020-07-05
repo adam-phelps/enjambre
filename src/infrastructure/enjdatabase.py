@@ -2,7 +2,7 @@ import json
 import boto3
 
 
-def create_table(config_file) -> bool:
+def create_table(config_file):
     """ Seperate the config from logic in JSON file and create our table. """
     try:
         with open(config_file) as ddb_config:

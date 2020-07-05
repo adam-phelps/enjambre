@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This is the infrastructure (sans DynamoDB) for enjmabre.",
+    "Description": "This is the control-plane infrastructure (sans DynamoDB) for enjmabre.",
     "Resources": {
         "robotsRoleDDB": {
             "Type": "AWS::IAM::Role",
@@ -43,8 +43,8 @@
         "apigwRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-                "Name": "api_robots",
-                "Description": "API to update and delete from DDB table.",
+                "Name": "api-controlplane",
+                "Description": "API to allow control plane actions for CLI or web console.",
                 "Parameters": {
                     "endpointConfigurationTypes": "REGIONAL"
                 }
@@ -258,6 +258,14 @@
         "MyApiEndpoint": {
             "Value": {
                 "Fn::Sub": "https://${apigwRestApi}.execute-api.${AWS::Region}.amazonaws.com/BETA" 
+            }
+        },
+        "MyLambdaRole" : {
+            "Value": {
+                "Fn::GetAtt": [
+                    "robotsRoleDDB",
+                    "Arn"
+                ]
             }
         }
     }
