@@ -14,6 +14,10 @@ Manage your Robots in one central location using AWS!
 
 `python src/main.py --list-robots all`
 
+### Send a command to a robot
+
+`python src/main.py --command Eat_Pizza --robot-id a12b3456-789c`
+
 ## Installation & Configuration 
 
 Configure AWS environment, will need perms to create DDB, create/run Cloudformation stacks, create/invoke Lambda functions, create/use/invoke API gateway.
