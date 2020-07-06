@@ -2,7 +2,7 @@
 Manage your Robots in one central location using AWS!
 
 ## Solution Architecture
-![Solution Visual](imgs/EnjambreArchitecture.png?raw=true "Enjambre Solution")
+![Solution Visual](imgs/EnjArchitecture.png?raw=true "Enjambre Solution")
 
 ## Getting Started 
 
