@@ -130,3 +130,6 @@ dmypy.json
 src/lambdas/lambda_get_robots.py.zip
 src/lambdas/lambda_post_robots.py.zip
 src/lambdas/lambda_update_robots.py.zip
+
+# VS Code
+.vscode

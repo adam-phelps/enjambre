@@ -18,6 +18,7 @@ if __name__ == "__main__":
     robot_params = myEnjManager.launch_cli()
     aws_auth = myEnjSecurity.get_aws_auth()
     myEnjRobotMethods = EnjRobotMethods(robot_params, aws_auth)
+    localrobots = myEnjRobotMethods.get_robots()
     if robot_params['add_robot']:
         myEnjRobotMethods.post_robot(robot_params['add_robot'])
         myAccessK,mySecretK = myEnjRoboAccess.setup_iam_user(robot_params['add_robot'])

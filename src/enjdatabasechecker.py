@@ -14,5 +14,4 @@ class EnjDatabaseChecker:
     def dbcheck_for_status(self):
         ddbc = boto3.client('dynamodb')
         response = ddbc.list_tables()
-        print(response)
         return response

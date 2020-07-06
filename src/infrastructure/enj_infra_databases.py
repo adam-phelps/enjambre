@@ -1,3 +1,6 @@
+#Create our DynamoDB tables for control and data plane.
+#Adam Phelps 7/5/2020
+
 import json
 import boto3
 
@@ -39,6 +42,7 @@ def create_table(config_file):
             'WriteCapacityUnits': 3
         }
         )
+        print("Creating table.")
         return True
     except ddb.meta.client.exceptions.ResourceInUseException:
         print("The table already exists.")
@@ -46,4 +50,5 @@ def create_table(config_file):
 
 
 if __name__ == "__main__":
-    create_table('src/infrastructure/lab_ddb_config.json')
+    create_table('src/infrastructure/ddb_robots_table.json')
+    create_table('src/infrastructure/ddb_events_table.json')

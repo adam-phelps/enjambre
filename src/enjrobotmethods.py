@@ -24,7 +24,7 @@ class EnjRobotMethods:
             'REGISTERED': "NO"
         },
         auth=self.aws_auth)
-        print(r.text)
+        return r.text
 
     def get_robots(self):
         r = requests.get(environ['TARGET_API'],auth=self.aws_auth)
@@ -32,10 +32,23 @@ class EnjRobotMethods:
         robots = []
         robot_count = 0
         for robot in responsejson['robots']['Items']:
-            robots.append((robot['ID']['S'],robot['NAME']['S']))
+            robots.append(
+                (robot['ID']['S'],
+                robot['NAME']['S'],
+                robot['CONNECTION']['S'],
+                robot['LOCATION']['S'],
+                robot['MODEL']['S'],
+                robot['REGISTERED']['S'],
+                robot['SQSQ']['S'],
+                robot['VIDEO']['S']))
             robot_count +=1
         return robots, robot_count
 
+    def get_robot(self, robot_name):
+        r = requests.get(environ['TARGET_API'],auth=self.aws_auth)
+        responsejson = r.json()
+        print(responsejson)
+        
     def display_robots(self):
         robots, robot_count = self.get_robots()
         for robot in robots:

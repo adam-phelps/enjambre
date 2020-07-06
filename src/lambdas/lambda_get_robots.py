@@ -1,7 +1,7 @@
 import boto3
 import json
 
-def get_robots() -> list:
+def get_robots(event) -> list:
     ''' Return all robots in the table. '''
     ddbc = boto3.client('dynamodb')
     response = ddbc.scan(
@@ -11,7 +11,7 @@ def get_robots() -> list:
 
 def lambda_handler(event, context):
     ''' Standard lambda handler. '''
-    result = get_robots()
+    result = get_robots(event)
     return {
         'statusCode': 200,
         'robots': result
