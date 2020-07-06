@@ -19,16 +19,7 @@ def post_register(event):
             ReturnValues="UPDATED_NEW"
         )
         return response
-        '''response = ddb.get_item(
-        TableName='Robots',
-        Key={
-            'ID': {
-                'S': event['ID']
-            },
-            'NAME': {
-                'S': event['NAME']
-            }
-        }'''
+
     except KeyError:
         response = table.put_item(Item={
         'ID': id,
