@@ -1,0 +1,15 @@
+{
+    "TableName": "Events",
+    "Attributes": [
+        {
+            "AttributeName": "ID",
+            "KeyType": "HASH",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "TIME",
+            "KeyType": "RANGE",
+            "AttributeType": "S"
+        }
+    ]
+}

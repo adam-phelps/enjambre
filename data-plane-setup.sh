@@ -5,7 +5,7 @@
 
 #Make the DB and zip the lambdas because you can only upload zipped lambdas not native .py files
 #python src/infrastructure/enjdatabase.py
-#for x in $(ls src/lambdas | grep -v "zip"); do zip -j src/lambdas/dataplane/$x.zip src/lambdas/dataplane$x; done
+for x in $(ls src/lambdas/dataplane | grep -v "zip\|staging"); do zip -j src/lambdas/dataplane/$x.zip src/lambdas/dataplane/$x; done
 
 #Create the stack if it doesn't exist yet or update the existing one, use extra capabilities since we are making IAM roles
 #Wait for the stack to exist "CREATE_COMPLETE" before updating the lambdas and environment vars the CFN JSON gets messy nesting the Lambdas in there so we send them seperately
@@ -32,3 +32,10 @@ declare -x TARGET_AGENT_API
 #In order to use aws-requests-auth PIP package I need a santized version of the URL
 TARGET_AGENT_API_AWS_AUTH=$(echo $TARGET_AGENT_API | awk -F "/" '{print $3}')
 declare -x TARGET_AGENT_API_AWS_AUTH
+
+for PYLAMBDA in $(ls src/lambdas/dataplane | grep -v "zip\|staging" | awk -F "." '{print $1}' ); 
+do 
+     aws lambda update-function-code \
+          --function-name $PYLAMBDA \
+          --zip-file fileb://$(pwd)/src/lambdas/dataplane/$PYLAMBDA.py.zip
+done

@@ -127,6 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# VS Code
+.vscode
+src/lambdas/dataplane/lambdaEnjagentPostEvents.py.zip
+src/lambdas/dataplane/lambdaEnjagentPostTasks.py.zip
 src/lambdas/lambda_get_robots.py.zip
 src/lambdas/lambda_post_robots.py.zip
-src/lambdas/lambda_update_robots.py.zip
+src/lambdas/lambdaEnjmanagerPostCommand.py.zip

@@ -4,7 +4,7 @@
 #Must run as source setup.sh in order for environment var to set in main shell not sub shell
 
 #Make the DB and zip the lambdas because you can only upload zipped lambdas not native .py files
-python src/infrastructure/enjdatabase.py
+python src/infrastructure/enj_infra_databases.py
 for x in $(ls src/lambdas | grep -v "zip"); do zip -j src/lambdas/$x.zip src/lambdas/$x; done
 
 #Create the stack if it doesn't exist yet or update the existing one, use extra capabilities since we are making IAM roles
@@ -40,6 +40,10 @@ aws lambda update-function-code \
 aws lambda update-function-code \
      --function-name robotsGetRobotslambda \
      --zip-file fileb://$(pwd)/src/lambdas/lambda_get_robots.py.zip
+
+aws lambda update-function-code \
+     --function-name lambdaEnjmanagerPostCommand \
+     --zip-file fileb://$(pwd)/src/lambdas/lambdaEnjmanagerPostCommand.py.zip
 
 #Test the endpoint, if these fail it means we are secure from public requests:)
 echo "These tests sould FAIL and return 'missing auth token'. "

@@ -17,3 +17,6 @@ curl <API> -X POST
 for x in $curl -d '{"ID":"Bob"}' -H "Content-Type: application/json" -X POST $TARGET_API
 
 (ls src/lambdas | grep -v "zip"); do echo $x; done
+
+#List IAM users
+aws iam list-users

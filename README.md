@@ -2,7 +2,7 @@
 Manage your Robots in one central location using AWS!
 
 ## Solution Architecture
-![Solution Visual](imgs/EnjambreArchitecture.png?raw=true "Enjambre Solution")
+![Solution Visual](imgs/EnjArchitecture.png?raw=true "Enjambre Solution")
 
 ## Getting Started 
 
@@ -13,6 +13,10 @@ Manage your Robots in one central location using AWS!
 ### Get a list of existing robots
 
 `python src/main.py --list-robots all`
+
+### Send a command to a robot
+
+`python src/main.py --command Eat_Pizza --robot-id a12b3456-789c`
 
 ## Installation & Configuration 
 
