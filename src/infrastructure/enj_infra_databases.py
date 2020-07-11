@@ -11,8 +11,7 @@ def create_table(config_file):
         with open(config_file) as ddb_config:
             my_ddb_config = json.load(ddb_config)
     except FileNotFoundError:
-        print(f"Could not load '{config_file}' File not found.")
-
+        print(f"Could not load {config_file} File not found.")
     ddb = boto3.resource('dynamodb')
     try:
         ddb.create_table(

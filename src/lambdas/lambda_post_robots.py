@@ -43,7 +43,8 @@ def lambda_handler(event, context):
     result = put_robot(event, roboid, queueurl)
     return {
         'statusCode': 200,
-        'QueueUrl': queueurl
+        'QueueUrl': queueurl,
+        'robo_id': result
     }
 
 if __name__ == "__main__":

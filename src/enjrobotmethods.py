@@ -24,8 +24,8 @@ class EnjRobotMethods:
             'REGISTERED': "NO"
         },
         auth=self.aws_auth)
-        print(r)
-        return r.text
+        r = r.json()
+        return r['robo_id']
 
     def get_robots(self):
         r = requests.get(environ['TARGET_API'],auth=self.aws_auth)
