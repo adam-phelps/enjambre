@@ -1,5 +1,7 @@
-#Create our DynamoDB tables for control and data plane.
-#Adam Phelps 7/5/2020
+"""
+Create our DynamoDB tables for control and data plane.
+Adam Phelps 7/5/2020
+"""
 
 import json
 import boto3
@@ -15,31 +17,31 @@ def create_table(config_file):
     ddb = boto3.resource('dynamodb')
     try:
         ddb.create_table(
-        TableName=my_ddb_config['TableName'],
-        KeySchema=[
-            {
-                'AttributeName': my_ddb_config['Attributes'][0]['AttributeName'],
-                'KeyType': my_ddb_config['Attributes'][0]['KeyType']
-            },
-            {
-                'AttributeName': my_ddb_config['Attributes'][1]['AttributeName'],
-                'KeyType': my_ddb_config['Attributes'][1]['KeyType']
+            TableName=my_ddb_config['TableName'],
+            KeySchema=[
+                {
+                    'AttributeName': my_ddb_config['Attributes'][0]['AttributeName'],
+                    'KeyType': my_ddb_config['Attributes'][0]['KeyType']
+                },
+                {
+                    'AttributeName': my_ddb_config['Attributes'][1]['AttributeName'],
+                    'KeyType': my_ddb_config['Attributes'][1]['KeyType']
+                }
+            ],
+            AttributeDefinitions=[
+                {
+                    'AttributeName': my_ddb_config['Attributes'][0]['AttributeName'],
+                    'AttributeType': my_ddb_config['Attributes'][0]['AttributeType']
+                },
+                {
+                    'AttributeName': my_ddb_config['Attributes'][1]['AttributeName'],
+                    'AttributeType': my_ddb_config['Attributes'][0]['AttributeType']
+                }
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 3,
+                'WriteCapacityUnits': 3
             }
-        ],
-        AttributeDefinitions=[
-            {
-                'AttributeName': my_ddb_config['Attributes'][0]['AttributeName'],
-                'AttributeType': my_ddb_config['Attributes'][0]['AttributeType']
-            },
-            {
-                'AttributeName': my_ddb_config['Attributes'][1]['AttributeName'],
-                'AttributeType': my_ddb_config['Attributes'][0]['AttributeType']
-            }
-        ],
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 3,
-            'WriteCapacityUnits': 3
-        }
         )
         print("Creating table.")
         return True
