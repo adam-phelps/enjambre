@@ -21,7 +21,7 @@ class EnjCLI:
             required=False)
         parser.add_argument(
             '--list-robots',
-            help="Use this option to get existing robots",
+            help="Use this option to get existing robots, currently must supply the value 'all'",
             required=False)
         parser.add_argument(
             '--command',
